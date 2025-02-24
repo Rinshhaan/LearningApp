@@ -51,49 +51,22 @@ const motivationalMessages = [
     "Stay focused and keep learning!"
 ];
 
-// Toggle Dropdown Menu
+// Toggle Mobile Menu
 const dropdownMenu = document.getElementById('dropdown-menu');
 
 menuIcon.addEventListener('click', () => {
     dropdownMenu.classList.toggle('open');
 });
 
-// Toggle Mobile Dropdown
-
-menuIcon.addEventListener('click', () => {
-    dropdownMenu.classList.toggle('max-h-0');
-    dropdownMenu.classList.toggle('max-h-96');
-});
-
-// Toggle Courses Dropdown on Click
-const coursesLink = document.getElementById('courses-link');
-const coursesDropdown = document.getElementById('courses-dropdown');
-const mobileCoursesLink = document.getElementById('mobile-courses-link');
-const mobileCoursesDropdown = document.getElementById('mobile-courses-dropdown');
-
-coursesLink.addEventListener('click', (e) => {
-    e.preventDefault(); // Prevent default link behavior
-    coursesDropdown.classList.toggle('max-h-0');
-    coursesDropdown.classList.toggle('max-h-96');
-});
-
-mobileCoursesLink.addEventListener('click', (e) => {
-    e.preventDefault(); // Prevent default link behavior
-    mobileCoursesDropdown.classList.toggle('max-h-0');
-    mobileCoursesDropdown.classList.toggle('max-h-96');
-});
-
 // Close dropdown when clicking outside
 document.addEventListener('click', (e) => {
-    if (!coursesLink.contains(e.target) && !coursesDropdown.contains(e.target)) {
-        coursesDropdown.classList.add('max-h-0');
-        coursesDropdown.classList.remove('max-h-96');
-    }
-    if (!mobileCoursesLink.contains(e.target) && !mobileCoursesDropdown.contains(e.target)) {
-        mobileCoursesDropdown.classList.add('max-h-0');
-        mobileCoursesDropdown.classList.remove('max-h-96');
+    if (!menuIcon.contains(e.target) && !dropdownMenu.contains(e.target)) {
+        dropdownMenu.classList.remove('open');
     }
 });
+
+
+
 
 // Initialize the app
 function initializeApp() {
@@ -192,20 +165,6 @@ function showTrackingPopup() {
     alert(`Quiz Completed! You scored ${score} out of ${questions.length}. Your score is ${percentage}%.`);
 }
 
-// Show the cartoon kid
-function showCartoonKid() {
-    cartoonKid.classList.remove('hide');
-    kidMessage.classList.remove('hide');
-    gsap.from(cartoonKid, { y: 100, opacity: 0, duration: 1, ease: 'bounce.out' });
-    gsap.from(kidMessage, { y: 50, opacity: 0, duration: 1, delay: 1 });
-}
-
-// Show a random motivational message
-function showRandomMessage() {
-    const randomMessage = motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
-    kidMessage.innerText = randomMessage;
-    gsap.to(kidMessage, { opacity: 1, duration: 0.5, yoyo: true, repeat: 1 });
-}
 
 // Initialize the app when the page loads
 initializeApp();

@@ -74,16 +74,11 @@
                 Have questions or feedback? We'd love to hear from you! Reach out to us via email or fill out the form
                 below.
             </p>
-            <form class="space-y-4">
-                <input type="text" placeholder="Your Name"
-                    class="w-full p-2 bg-white bg-opacity-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
-                <input type="email" placeholder="Your Email"
-                    class="w-full p-2 bg-white bg-opacity-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
-                <textarea placeholder="Your Message" rows="4"
-                    class="w-full p-2 bg-white bg-opacity-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"></textarea>
-                <button type="submit"
-                    class="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-2 rounded-full hover:scale-105 transition-transform">Send
-                    Message</button>
+            <form action="https://formspree.io/f/your-form-id" method="POST" class="space-y-4">
+                <input type="text" name="name" placeholder="Your Name" class="w-full p-2 bg-white bg-opacity-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                <input type="email" name="email" placeholder="Your Email" class="w-full p-2 bg-white bg-opacity-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                <textarea name="message" placeholder="Your Message" rows="4" class="w-full p-2 bg-white bg-opacity-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required></textarea>
+                <button type="submit" class="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-2 rounded-full hover:scale-105 transition-transform">Send Message</button>
             </form>
         </div>
     </div>
