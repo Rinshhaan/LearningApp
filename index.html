@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App - Boost Your Learning</title>
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="bg-gradient-to-r from-blue-900 to-purple-900 text-white">
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 w-full bg-opacity-50 backdrop-blur-md p-4 z-50 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-2xl font-bold flex items-center">
+                <i class="fas fa-brain text-pink-500 mr-2"></i>
+                QuizMaster
+            </div>
+            <div class="md:hidden cursor-pointer" id="menu-icon">
+                <i class="fas fa-bars text-2xl"></i>
+            </div>
+            <ul class="hidden md:flex space-x-6">
+                <li><a href="index.html" class="hover:text-purple-300 transition-colors">Home</a></li>
+                <li><a href="about.html" class="hover:text-purple-300 transition-colors">About</a></li>
+                <li class="relative">
+                    <a href="#" id="courses-link" class="hover:text-purple-300 transition-colors">Courses</a>
+                    <!-- Dropdown for Courses -->
+                    <div id="courses-dropdown"
+                        class="absolute bg-blue-900 bg-opacity-90 backdrop-blur-md mt-2 rounded-lg overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
+                        <ul class="space-y-2 p-2">
+                            <li><a href="#" class="block p-2 hover:bg-purple-600 transition-colors">Mathematics</a></li>
+                            <li><a href="#" class="block p-2 hover:bg-purple-600 transition-colors">Science</a></li>
+                            <li><a href="#" class="block p-2 hover:bg-purple-600 transition-colors">History</a></li>
+                            <li><a href="#" class="block p-2 hover:bg-purple-600 transition-colors">Geography</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li><a href="contact.html" class="hover:text-purple-300 transition-colors">Contact</a></li>
+            </ul>
+        </div>
+        <!-- Dropdown Menu for Mobile -->
+        <div id="dropdown-menu"
+            class="md:hidden bg-blue-900 bg-opacity-90 backdrop-blur-md mt-4 rounded-lg overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
+            <ul class="space-y-2 p-2">
+                <li><a href="index.html" class="block p-2 hover:bg-purple-600 transition-colors">Home</a></li>
+                <li><a href="about.html" class="block p-2 hover:bg-purple-600 transition-colors">About</a></li>
+                <li>
+                    <a href="#" id="mobile-courses-link"
+                        class="block p-2 hover:bg-purple-600 transition-colors">Courses</a>
+                    <!-- Nested Dropdown for Mobile -->
+                    <ul id="mobile-courses-dropdown"
+                        class="pl-4 mt-2 space-y-2 max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                        <li><a href="#" class="block p-2 hover:bg-purple-600 transition-colors">Mathematics</a></li>
+                        <li><a href="#" class="block p-2 hover:bg-purple-600 transition-colors">Science</a></li>
+                        <li><a href="#" class="block p-2 hover:bg-purple-600 transition-colors">History</a></li>
+                        <li><a href="#" class="block p-2 hover:bg-purple-600 transition-colors">Geography</a></li>
+                    </ul>
+                </li>
+                <li><a href="contact.html" class="block p-2 hover:bg-purple-600 transition-colors">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Home Page -->
+    <div id="home-page" class="min-h-screen flex flex-col justify-center items-center text-center p-4">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 animated-text">Welcome to Your Learning Journey!</h1>
+        <p class="text-lg md:text-xl mb-8">Unlock your potential with our interactive quiz app designed to help you ace
+            your entrance exams.</p>
+        <a href="mcq.html" id="start-learning-btn" type="button" class="btn">
+            <strong>Start Learning Now</strong>
+            <div id="container-stars">
+                <div id="stars"></div>
+            </div>
+
+            <div id="glow">
+                <div class="circle"></div>
+                <div class="circle"></div>
+            </div>
+        </a>
+        <!-- Pros Boxes -->
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 w-full max-w-4xl px-4">
+            <div
+                class="bg-white bg-opacity-10 p-4 md:p-6 rounded-lg backdrop-blur-md hover:scale-105 transition-transform">
+                <div class="text-4xl mb-4">📚</div>
+                <h2 class="text-xl font-bold mb-2">Comprehensive Questions</h2>
+                <p class="text-gray-300">Access thousands of MCQ questions tailored for entrance exams.</p>
+            </div>
+            <div
+                class="bg-white bg-opacity-10 p-4 md:p-6 rounded-lg backdrop-blur-md hover:scale-105 transition-transform">
+                <div class="text-4xl mb-4">🎯</div>
+                <h2 class="text-xl font-bold mb-2">Track Your Progress</h2>
+                <p class="text-gray-300">Monitor your performance and improve with every attempt.</p>
+            </div>
+            <div
+                class="bg-white bg-opacity-10 p-4 md:p-6 rounded-lg backdrop-blur-md hover:scale-105 transition-transform">
+                <div class="text-4xl mb-4">🚀</div>
+                <h2 class="text-xl font-bold mb-2">Boost Your Confidence</h2>
+                <p class="text-gray-300">Practice makes perfect. Get exam-ready with our quizzes.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+
+</html>

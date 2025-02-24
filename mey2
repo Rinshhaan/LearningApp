@@ -1,0 +1,11 @@
+<a href="mcq.html" id="start-learning-btn" type="button" class="btn">
+    <strong>Start Learning Now</strong>
+    <div id="container-stars">
+      <div id="stars"></div>
+    </div>
+  
+    <div id="glow">
+      <div class="circle"></div>
+      <div class="circle"></div>
+    </div>
+</a>

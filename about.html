@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - QuizMaster</title>
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gradient-to-r from-blue-900 to-purple-900 text-white">
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 w-full bg-opacity-50 backdrop-blur-md p-4 z-50 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-2xl font-bold flex items-center">
+                <i class="fas fa-brain text-pink-500 mr-2"></i>
+                QuizMaster
+            </div>
+            <div class="md:hidden cursor-pointer" id="menu-icon">
+                <i class="fas fa-bars text-2xl"></i>
+            </div>
+            <ul class="hidden md:flex space-x-6">
+                <li><a href="index.html" class="hover:text-purple-300 transition-colors">Home</a></li>
+                <li><a href="about.html" class="hover:text-purple-300 transition-colors">About</a></li>
+                <li><a href="#" class="hover:text-purple-300 transition-colors">Courses</a></li>
+                <li><a href="#" class="hover:text-purple-300 transition-colors">Contact</a></li>
+            </ul>
+        </div>
+        <!-- Dropdown Menu for Mobile -->
+        <div id="dropdown-menu" class="md:hidden bg-blue-900 bg-opacity-90 backdrop-blur-md mt-4 rounded-lg overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
+            <ul class="space-y-2 p-2">
+                <li><a href="index.html" class="block p-2 hover:bg-purple-600 transition-colors">Home</a></li>
+                <li><a href="about.html" class="block p-2 hover:bg-purple-600 transition-colors">About</a></li>
+                <li><a href="#" class="block p-2 hover:bg-purple-600 transition-colors">Courses</a></li>
+                <li><a href="#" class="block p-2 hover:bg-purple-600 transition-colors">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- About Page Content -->
+    <div class="min-h-screen flex flex-col justify-center items-center text-center p-4">
+        <h1 class="text-4xl md:text-5xl font-bold mb-8 animated-text">About QuizMaster</h1>
+        <div class="max-w-2xl bg-white bg-opacity-10 p-8 rounded-lg backdrop-blur-md">
+            <p class="text-lg mb-6">
+                QuizMaster is an interactive quiz app designed to help students prepare for entrance exams. 
+                With thousands of MCQ questions, progress tracking, and a user-friendly interface, 
+                QuizMaster makes learning fun and effective.
+            </p>
+            <p class="text-lg mb-6">
+                Our mission is to empower learners by providing them with the tools they need to succeed. 
+                Whether you're preparing for competitive exams or just want to test your knowledge, 
+                QuizMaster is here to help you achieve your goals.
+            </p>
+            <p class="text-lg">
+                Join thousands of students who have already unlocked their potential with QuizMaster. 
+                Start your learning journey today!
+            </p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
