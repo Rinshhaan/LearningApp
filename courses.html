@@ -13,25 +13,34 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="bg-gradient-to-r from-blue-900 to-purple-900 text-white">
-    <!-- Navbar -->
-    <nav class="fixed top-0 left-0 w-full bg-opacity-50 backdrop-blur-md p-4 z-50 shadow-lg">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="text-2xl font-bold flex items-center">
-                <i class="fas fa-brain text-pink-500 mr-2"></i>
-                QuizMaster
-            </div>
-            <div class="md:hidden cursor-pointer" id="menu-icon">
-                <i class="fas fa-bars text-2xl"></i>
-            </div>
-            <ul class="hidden md:flex space-x-6">
-                <li><a href="index.html" class="hover:text-purple-300 transition-colors">Home</a></li>
-                <li><a href="about.html" class="hover:text-purple-300 transition-colors">About</a></li>
-                <li><a href="courses.html" class="hover:text-purple-300 transition-colors">Courses</a></li>
-                <li><a href="contact.html" class="hover:text-purple-300 transition-colors">Contact</a></li>
-            </ul>
+<nav class="fixed top-0 left-0 w-full bg-gradient-to-r from-blue-900 to-purple-900 p-4 z-50 shadow-lg">
+    <div class="container mx-auto flex justify-between items-center">
+        <div class="text-2xl font-bold flex items-center">
+            <i class="fas fa-brain text-pink-500 mr-2"></i>
+            QuizMaster
         </div>
-    </nav>
+        <div class="md:hidden cursor-pointer" id="menu-icon">
+            <i class="fas fa-bars text-2xl"></i>
+        </div>
+        <ul class="hidden md:flex space-x-6">
+            <li><a href="index.html" class="nav-link hover:text-purple-300 transition-colors">Home</a></li>
+            <li><a href="about.html" class="nav-link hover:text-purple-300 transition-colors">About</a></li>
+            <li><a href="courses.html" class="nav-link hover:text-purple-300 transition-colors">Courses</a></li>
+            <li><a href="contact.html" class="nav-link hover:text-purple-300 transition-colors">Contact</a></li>
+        </ul>
+    </div>
+    <!-- Dropdown Menu for Mobile -->
+    <div id="dropdown-menu" class="md:hidden bg-blue-900 bg-opacity-90 backdrop-blur-md mt-4 rounded-lg overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
+        <ul class="space-y-2 p-2">
+            <li><a href="index.html" class="block p-2 hover:bg-purple-600 transition-colors">Home</a></li>
+            <li><a href="about.html" class="block p-2 hover:bg-purple-600 transition-colors">About</a></li>
+            <li><a href="courses.html" class="block p-2 hover:bg-purple-600 transition-colors">Courses</a></li>
+            <li><a href="contact.html" class="block p-2 hover:bg-purple-600 transition-colors">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+    <body class="bg-gradient-to-r from-blue-900 to-purple-900 text-white">
+
 
     <!-- Courses Page Content -->
      <div class="course-body">

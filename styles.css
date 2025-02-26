@@ -1,9 +1,5 @@
 /* General Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+
 html, body {
     overflow-x: hidden; 
     overflow-y: auto; 
@@ -155,7 +151,18 @@ nav {
     body{
         padding-top: 130px;
     }
+    #home-page{
+      padding-top: 10rem;
+    }
+    .course-body{
+      padding-top: 20rem;     
+    }
 
+}
+
+.index-card:hover{
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 /* Home Page Styles */
@@ -634,6 +641,7 @@ nav {
     height: 330px;
     border-radius: 16px;
     overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
   .wave {
@@ -726,4 +734,16 @@ nav {
     display: flex;
     gap: 3vh;
     flex-wrap: wrap;
+}
+
+
+/* Responsive Grid for Mobile */
+@media (max-width: 768px) {
+    .grid {
+        gap: 1rem; /* Reduced gap between cards on mobile */
+    }
+
+    .e-card {
+        margin-bottom: 0.2rem; /* Further reduced gap between cards */
+    }
 }
