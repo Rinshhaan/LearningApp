@@ -13,6 +13,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <!-- Custom CSS for SweetAlert2 -->
     <style>
         .swal2-popup {
@@ -68,7 +70,8 @@
             </div>
             <div id="correct-answer-feedback" class="mt-4 text-base md:text-lg font-bold text-green-500 hide"></div>
         </div>
-        <div class="mt-6">
+        <div class="mt-6 flex justify-between">
+            <button id="give-up-btn" class="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-red-600 transition-transform">Give Up</button>
             <button id="next-btn" class="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-2 rounded-full hover:scale-105 transition-transform hide">Next</button>
         </div>
     </div>
@@ -82,15 +85,23 @@
 
     <!-- Tracking Popup -->
     <div id="tracking-popup" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4">
-        <div class="bg-white bg-opacity-20 backdrop-blur-lg rounded-lg shadow-lg w-11/12 max-w-md transform transition-all duration-300 scale-95 opacity-0 p-6 border border-white border-opacity-20">
+        <div class="bg-gradient-to-br from-purple-800 to-pink-900 backdrop-blur-lg rounded-lg shadow-lg w-11/12 max-w-md transform transition-all duration-300 scale-95 opacity-0 p-6 border border-white border-opacity-20 relative">
+            <!-- Close Button (Icon) -->
+            <button id="close-tracking-popup" class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors">
+                <i class="fas fa-times text-xl"></i>
+            </button>
             <h2 class="text-2xl font-bold mb-4 text-white flex items-center">
-                <i class="fas fa-chart-line text-yellow-400 mr-2"></i>
+                <i class="fas fa-chart-line text-purple-300 mr-2"></i>
                 Progress Tracker
             </h2>
             <div id="tracking-content" class="text-white space-y-4">
                 <div class="flex justify-between">
                     <p>Total Questions:</p>
                     <p id="total-questions">0</p>
+                </div>
+                <div class="flex justify-between">
+                    <p>Attempted Questions:</p>
+                    <p id="attempted-questions">0</p>
                 </div>
                 <div class="flex justify-between">
                     <p>Correct Answers:</p>
@@ -100,15 +111,16 @@
                     <p>Progress:</p>
                     <p id="progress-percentage">0%</p>
                 </div>
-                <div class="bg-white bg-opacity-20 h-2 rounded-full">
-                    <div id="tracking-progress-bar" class="bg-yellow-400 h-2 rounded-full" style="width: 0%"></div>
+                <div class="bg-white bg-opacity-20 h-2 rounded-full relative">
+                    <div id="tracking-progress-bar" class="bg-gradient-to-r from-purple-400 to-pink-500 h-2 rounded-full" style="width: 0%"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full opacity-0 animate-pulse" id="progress-glow"></div>
                 </div>
             </div>
             <div class="mt-6 flex justify-between">
-                <button id="close-tracking-popup" class="bg-white bg-opacity-10 text-white px-4 py-2 rounded-lg hover:bg-opacity-20 transition-colors">
-                    Close
+                <button id="download-pdf-btn" class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors">
+                    Download PDF
                 </button>
-                <a href="index.html" class="bg-yellow-400 text-black px-4 py-2 rounded-lg hover:bg-yellow-500 transition-colors">
+                <a href="index.html" class="bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600 transition-colors">
                     Go to Home
                 </a>
             </div>
@@ -141,10 +153,12 @@
 
         let currentQuestionIndex = 0;
         let score = 0;
+        let attemptedQuestions = 0; // Track attempted questions
 
         const questionElement = document.getElementById('question');
         const answerButtonsElement = document.getElementById('answer-buttons');
         const nextButton = document.getElementById('next-btn');
+        const giveUpButton = document.getElementById('give-up-btn');
         const scoreElement = document.getElementById('score');
         const progressBar = document.getElementById('progress-bar');
         const correctAnswerFeedback = document.getElementById('correct-answer-feedback');
@@ -152,9 +166,12 @@
         const closeTrackingPopupButton = document.getElementById('close-tracking-popup');
         const trackingContent = document.getElementById('tracking-content');
         const totalQuestionsElement = document.getElementById('total-questions');
+        const attemptedQuestionsElement = document.getElementById('attempted-questions');
         const correctAnswersElement = document.getElementById('correct-answers');
         const progressPercentageElement = document.getElementById('progress-percentage');
         const trackingProgressBar = document.getElementById('tracking-progress-bar');
+        const downloadPdfButton = document.getElementById('download-pdf-btn');
+        const progressGlow = document.getElementById('progress-glow');
 
         // Function to show the tracking popup
         function showTrackingPopup() {
@@ -170,9 +187,11 @@
             const progressPercentage = Math.round((currentQuestionIndex / totalQuestions) * 100);
 
             totalQuestionsElement.innerText = totalQuestions;
+            attemptedQuestionsElement.innerText = attemptedQuestions;
             correctAnswersElement.innerText = score;
             progressPercentageElement.innerText = `${progressPercentage}%`;
             gsap.to(trackingProgressBar, { width: `${progressPercentage}%`, duration: 0.5, ease: "power2.out" });
+            gsap.to(progressGlow, { opacity: 1, duration: 0.5, repeat: -1, yoyo: true });
         }
 
         // Function to close the tracking popup
@@ -191,10 +210,41 @@
         // Event listener for the tracking popup close button
         closeTrackingPopupButton.addEventListener('click', closeTrackingPopup);
 
+        // Function to generate a PDF of solved questions
+        function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.setFontSize(18);
+            doc.text("Solved Questions", 10, 10);
+
+            let y = 20;
+            neetQuestions.slice(0, currentQuestionIndex).forEach((question, index) => {
+                doc.setFontSize(12);
+                doc.text(`Question ${index + 1}: ${question.question}`, 10, y);
+                y += 10;
+                doc.text(`Your Answer: ${question.options[question.selectedAnswer]}`, 15, y);
+                y += 10;
+                doc.text(`Correct Answer: ${question.options[question.correctAnswer]}`, 15, y);
+                y += 15;
+            });
+
+            doc.save("solved-questions.pdf");
+        }
+
+        // Event listener for the download PDF button
+        downloadPdfButton.addEventListener('click', generatePDF);
+
+        // Function to handle the "Give Up" button
+        giveUpButton.addEventListener('click', () => {
+            showTrackingPopup();
+        });
+
         // Function to start the quiz
         function startQuiz() {
             currentQuestionIndex = 0;
             score = 0;
+            attemptedQuestions = 0;
             scoreElement.innerText = score;
             showQuestion();
         }
@@ -235,6 +285,10 @@
             Array.from(answerButtonsElement.children).forEach(button => {
                 button.disabled = true;
             });
+
+            // Increment attempted questions
+            attemptedQuestions++;
+            attemptedQuestionsElement.innerText = attemptedQuestions;
 
             if (correct) {
                 score++;

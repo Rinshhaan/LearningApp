@@ -6,8 +6,6 @@ const questionContainerElement = document.getElementById('question-container');
 const questionElement = document.getElementById('question');
 const answerButtonsElement = document.getElementById('answer-buttons');
 const scoreElement = document.getElementById('score');
-const cartoonKid = document.getElementById('cartoon-kid');
-const kidMessage = document.getElementById('kid-message');
 const menuIcon = document.getElementById('menu-icon');
 const mobileMenu = document.getElementById('mobile-menu');
 
@@ -169,13 +167,6 @@ const questions = [
     }
 ];
 
-const motivationalMessages = [
-    "You're doing great! Keep it up!",
-    "Believe in yourself!",
-    "Every question is a step closer to success!",
-    "You've got this!",
-    "Stay focused and keep learning!"
-];
 
 // Toggle Mobile Menu
 const dropdownMenu = document.getElementById('dropdown-menu');
