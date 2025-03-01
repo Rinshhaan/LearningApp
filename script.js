@@ -11,6 +11,132 @@ const kidMessage = document.getElementById('kid-message');
 const menuIcon = document.getElementById('menu-icon');
 const mobileMenu = document.getElementById('mobile-menu');
 
+
+document.addEventListener('DOMContentLoaded', function () {
+    const chapterWiseCard = document.getElementById('chapter-wise');
+    const chapterPopup = document.getElementById('chapter-popup');
+    const chapterList = document.getElementById('chapter-list');
+    const startMcqButton = document.getElementById('start-mcq');
+    const closePopupButton = document.getElementById('close-popup');
+    const popupContent = chapterPopup.querySelector('div');
+
+    // Sample chapters and questions (replace with your actual data)
+    const chapters = [
+        {
+            name: "Chapter 1: Introduction",
+            questions: [
+                {
+                    question: "What is X?",
+                    options: ["Option 1", "Option 2", "Option 3", "Option 4"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "Define Y?",
+                    options: ["Option 1", "Option 2", "Option 3", "Option 4"],
+                    correctAnswer: 1
+                }
+            ]
+        },
+        {
+            name: "Chapter 2: Basics",
+            questions: [
+                {
+                    question: "What is A?",
+                    options: ["Option 1", "Option 2", "Option 3", "Option 4"],
+                    correctAnswer: 2
+                },
+                {
+                    question: "Define B?",
+                    options: ["Option 1", "Option 2", "Option 3", "Option 4"],
+                    correctAnswer: 3
+                }
+            ]
+        }
+    ];
+
+    // Function to generate chapter list
+    function generateChapterList() {
+        chapterList.innerHTML = ''; // Clear existing list
+        chapters.forEach(chapter => {
+            const chapterItem = document.createElement('div');
+            chapterItem.className = 'flex items-center mb-2 p-2 hover:bg-gray-100 rounded-lg cursor-pointer';
+            chapterItem.innerHTML = `
+                <input type="checkbox" id="${chapter.name}" class="mr-2">
+                <label for="${chapter.name}" class="text-gray-800">${chapter.name}</label>
+            `;
+            chapterList.appendChild(chapterItem);
+        });
+    }
+
+    // Show chapter popup on clicking Chapter Wise card
+    chapterWiseCard.addEventListener('click', function () {
+        generateChapterList();
+        chapterPopup.classList.remove('hidden');
+        setTimeout(() => {
+            popupContent.classList.remove('scale-95', 'opacity-0');
+            popupContent.classList.add('scale-100', 'opacity-100');
+        }, 10);
+    });
+
+    // Start MCQ button functionality
+    startMcqButton.addEventListener('click', function () {
+        const selectedChapters = [];
+        document.querySelectorAll('#chapter-list input[type="checkbox"]:checked').forEach(checkbox => {
+            selectedChapters.push(checkbox.id);
+        });
+
+        if (selectedChapters.length > 0) {
+            // Fetch questions from selected chapters
+            const selectedQuestions = [];
+            selectedChapters.forEach(chapterName => {
+                const chapter = chapters.find(ch => ch.name === chapterName);
+                if (chapter) {
+                    selectedQuestions.push(...chapter.questions);
+                }
+            });
+
+            // Mix (shuffle) the questions
+            const mixedQuestions = shuffleArray(selectedQuestions);
+
+            // Store the mixed questions in localStorage
+            localStorage.setItem('mixedQuestions', JSON.stringify(mixedQuestions));
+
+            // Redirect to chapter-mcq.html
+            window.location.href = 'chapter-mcq.html';
+        } else {
+            alert('Please select at least one chapter.');
+        }
+    });
+
+    // Close popup when clicking outside or on the close button
+    closePopupButton.addEventListener('click', function () {
+        popupContent.classList.remove('scale-100', 'opacity-100');
+        popupContent.classList.add('scale-95', 'opacity-0');
+        setTimeout(() => {
+            chapterPopup.classList.add('hidden');
+        }, 300);
+    });
+
+    chapterPopup.addEventListener('click', function (event) {
+        if (event.target === chapterPopup) {
+            popupContent.classList.remove('scale-100', 'opacity-100');
+            popupContent.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                chapterPopup.classList.add('hidden');
+            }, 300);
+        }
+    });
+
+    // Utility function to shuffle an array
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+});
+
 let shuffledQuestions, currentQuestionIndex, score;
 
 const questions = [
@@ -64,6 +190,7 @@ document.addEventListener('click', (e) => {
         dropdownMenu.classList.remove('open');
     }
 });
+
 
 
 

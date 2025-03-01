@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEET MCQs</title>
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Custom CSS for SweetAlert2 -->
+    <style>
+        .swal2-popup {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 15px !important;
+            color: white !important;
+        }
+        .swal2-title {
+            color: white !important;
+        }
+        .swal2-content {
+            color: white !important;
+        }
+        .swal2-actions {
+            gap: 10px !important;
+        }
+        .swal2-confirm, .swal2-cancel {
+            border: none !important;
+            border-radius: 8px !important;
+            padding: 8px 16px !important;
+            font-size: 14px !important;
+        }
+        .swal2-confirm {
+            background-color: #f472b6 !important; /* Pink */
+            color: white !important;
+        }
+        .swal2-confirm:hover {
+            background-color: #ec4899 !important; /* Darker Pink */
+        }
+        .swal2-cancel {
+            background-color: #3b82f6 !important; /* Blue */
+            color: white !important;
+        }
+        .swal2-cancel:hover {
+            background-color: #2563eb !important; /* Darker Blue */
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-r from-blue-900 to-purple-900 text-white min-h-screen flex flex-col justify-center items-center">
+    <!-- MCQ Quiz Container -->
+    <div class="bg-white bg-opacity-10 rounded-lg p-4 md:p-8 w-full max-w-md mx-4 backdrop-blur-md" style="width: 95%;">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl md:text-3xl font-bold">NEET MCQs</h1>
+            <div class="text-xl md:text-2xl font-bold">Score: <span id="score">0</span></div>
+        </div>
+        <div id="question-container">
+            <div id="question" class="text-xl md:text-2xl mb-6"></div>
+            <div id="answer-buttons" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <!-- Answer buttons will be dynamically added here -->
+            </div>
+            <div id="correct-answer-feedback" class="mt-4 text-base md:text-lg font-bold text-green-500 hide"></div>
+        </div>
+        <div class="mt-6">
+            <button id="next-btn" class="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-2 rounded-full hover:scale-105 transition-transform hide">Next</button>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="w-full max-w-md mt-6 mx-4" style="width: 95%;">
+        <div class="bg-white bg-opacity-20 h-2 rounded-full">
+            <div id="progress-bar" class="bg-pink-500 h-2 rounded-full" style="width: 0%"></div>
+        </div>
+    </div>
+
+    <!-- Tracking Popup -->
+    <div id="tracking-popup" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4">
+        <div class="bg-white bg-opacity-20 backdrop-blur-lg rounded-lg shadow-lg w-11/12 max-w-md transform transition-all duration-300 scale-95 opacity-0 p-6 border border-white border-opacity-20">
+            <h2 class="text-2xl font-bold mb-4 text-white flex items-center">
+                <i class="fas fa-chart-line text-yellow-400 mr-2"></i>
+                Progress Tracker
+            </h2>
+            <div id="tracking-content" class="text-white space-y-4">
+                <div class="flex justify-between">
+                    <p>Total Questions:</p>
+                    <p id="total-questions">0</p>
+                </div>
+                <div class="flex justify-between">
+                    <p>Correct Answers:</p>
+                    <p id="correct-answers">0</p>
+                </div>
+                <div class="flex justify-between">
+                    <p>Progress:</p>
+                    <p id="progress-percentage">0%</p>
+                </div>
+                <div class="bg-white bg-opacity-20 h-2 rounded-full">
+                    <div id="tracking-progress-bar" class="bg-yellow-400 h-2 rounded-full" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="mt-6 flex justify-between">
+                <button id="close-tracking-popup" class="bg-white bg-opacity-10 text-white px-4 py-2 rounded-lg hover:bg-opacity-20 transition-colors">
+                    Close
+                </button>
+                <a href="index.html" class="bg-yellow-400 text-black px-4 py-2 rounded-lg hover:bg-yellow-500 transition-colors">
+                    Go to Home
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Sample NEET MCQs (replace with your actual data)
+        const neetQuestions = [
+            {
+                question: "What is the SI unit of force?",
+                options: ["Newton", "Joule", "Watt", "Pascal"],
+                correctAnswer: 0
+            },
+            {
+                question: "Which organelle is known as the powerhouse of the cell?",
+                options: ["Nucleus", "Mitochondria", "Ribosome", "Golgi Apparatus"],
+                correctAnswer: 1
+            },
+            {
+                question: "What is the chemical formula of water?",
+                options: ["H2O", "CO2", "NaCl", "O2"],
+                correctAnswer: 0
+            }
+        ];
+
+        // Store NEET MCQs in localStorage
+        localStorage.setItem('mixedQuestions', JSON.stringify(neetQuestions));
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        const questionElement = document.getElementById('question');
+        const answerButtonsElement = document.getElementById('answer-buttons');
+        const nextButton = document.getElementById('next-btn');
+        const scoreElement = document.getElementById('score');
+        const progressBar = document.getElementById('progress-bar');
+        const correctAnswerFeedback = document.getElementById('correct-answer-feedback');
+        const trackingPopup = document.getElementById('tracking-popup');
+        const closeTrackingPopupButton = document.getElementById('close-tracking-popup');
+        const trackingContent = document.getElementById('tracking-content');
+        const totalQuestionsElement = document.getElementById('total-questions');
+        const correctAnswersElement = document.getElementById('correct-answers');
+        const progressPercentageElement = document.getElementById('progress-percentage');
+        const trackingProgressBar = document.getElementById('tracking-progress-bar');
+
+        // Function to show the tracking popup
+        function showTrackingPopup() {
+            trackingPopup.classList.remove('hidden');
+            gsap.fromTo(
+                trackingPopup.querySelector('div'),
+                { scale: 0.8, opacity: 0 },
+                { scale: 1, opacity: 1, duration: 0.3, ease: "power2.out" }
+            );
+
+            // Update tracking content
+            const totalQuestions = neetQuestions.length;
+            const progressPercentage = Math.round((currentQuestionIndex / totalQuestions) * 100);
+
+            totalQuestionsElement.innerText = totalQuestions;
+            correctAnswersElement.innerText = score;
+            progressPercentageElement.innerText = `${progressPercentage}%`;
+            gsap.to(trackingProgressBar, { width: `${progressPercentage}%`, duration: 0.5, ease: "power2.out" });
+        }
+
+        // Function to close the tracking popup
+        function closeTrackingPopup() {
+            gsap.to(trackingPopup.querySelector('div'), {
+                scale: 0.8,
+                opacity: 0,
+                duration: 0.3,
+                ease: "power2.in",
+                onComplete: () => {
+                    trackingPopup.classList.add('hidden');
+                }
+            });
+        }
+
+        // Event listener for the tracking popup close button
+        closeTrackingPopupButton.addEventListener('click', closeTrackingPopup);
+
+        // Function to start the quiz
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            scoreElement.innerText = score;
+            showQuestion();
+        }
+
+        // Function to show a question
+        function showQuestion() {
+            resetState();
+            const currentQuestion = neetQuestions[currentQuestionIndex];
+            questionElement.innerText = currentQuestion.question;
+
+            currentQuestion.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.classList.add('bg-white', 'bg-opacity-10', 'text-white', 'px-4', 'py-2', 'rounded-lg', 'hover:bg-opacity-20', 'transition-colors');
+                button.addEventListener('click', () => selectAnswer(index, button));
+                answerButtonsElement.appendChild(button);
+            });
+
+            // Update progress bar
+            progressBar.style.width = `${((currentQuestionIndex + 1) / neetQuestions.length) * 100}%`;
+        }
+
+        // Function to reset the state
+        function resetState() {
+            nextButton.classList.add('hide');
+            correctAnswerFeedback.classList.add('hide');
+            while (answerButtonsElement.firstChild) {
+                answerButtonsElement.removeChild(answerButtonsElement.firstChild);
+            }
+        }
+
+        // Function to handle answer selection
+        function selectAnswer(selectedIndex, selectedButton) {
+            const currentQuestion = neetQuestions[currentQuestionIndex];
+            const correct = selectedIndex === currentQuestion.correctAnswer;
+
+            // Disable all buttons after selection
+            Array.from(answerButtonsElement.children).forEach(button => {
+                button.disabled = true;
+            });
+
+            if (correct) {
+                score++;
+                scoreElement.innerText = score;
+                gsap.to(selectedButton, { backgroundColor: '#10B981', duration: 0.3 }); // Green for correct
+            } else {
+                gsap.to(selectedButton, { backgroundColor: '#EF4444', duration: 0.3 }); // Red for wrong
+                // Highlight the correct answer
+                Array.from(answerButtonsElement.children).forEach((button, index) => {
+                    if (index === currentQuestion.correctAnswer) {
+                        gsap.to(button, { backgroundColor: '#10B981', duration: 0.3 }); // Green for correct
+                    }
+                });
+            }
+
+            correctAnswerFeedback.classList.remove('hide');
+            nextButton.classList.remove('hide');
+        }
+
+        // Function to show the next question
+        function showNextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < neetQuestions.length) {
+                showQuestion();
+            } else {
+                // End of quiz
+                Swal.fire({
+                    title: 'Quiz Completed!',
+                    text: `Your final score is ${score}/${neetQuestions.length}`,
+                    icon: 'success',
+                    showCancelButton: true,
+                    confirmButtonText: 'Retry',
+                    cancelButtonText: 'Go to Home',
+                    customClass: {
+                        popup: 'swal2-popup',
+                        title: 'swal2-title',
+                        content: 'swal2-content',
+                        confirmButton: 'swal2-confirm',
+                        cancelButton: 'swal2-cancel'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Retry the quiz
+                        startQuiz();
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        // Go to Home
+                        window.location.href = 'index.html';
+                    }
+                });
+            }
+        }
+
+        // Event listener for the next button
+        nextButton.addEventListener('click', showNextQuestion);
+
+        // Start the quiz
+        startQuiz();
+    </script>
+</body>
+
+</html>
